@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DFC BFC</title>
+</head>
+
+<body>
+  <s>sdcsdc</s>
+  <a href="https://www.bilibili.com/video/BV1za411h7yu?spm_id_from=333.999.0.0">bilibili</a>
+  <div id="parent">
+    <div class="child-1">
+      <div class="child-1-1">
+        <div class="child-1-1-1"></div>
+        <div class="child-1-1-2"></div>
+      </div>
+      <div class="child-1-2">
+        <div class="child-1-2-1"></div>
+        <div class="child-1-2-2"></div>
+      </div>
+    </div>
+    <div class="child-2">
+      <div class="child-2-1">
+        <div class="child-2-1-1">
+          <div class="child-2-1-1-1"></div>
+        </div>
+      </div>
+    </div>
+    <div class="child-3">
+      <div class="child-3-1"></div>
+    </div>
+  </div>
+  <script>
+    /*
+    1. DFS(depth first search)的思想是从上至下，对每一个分支一直往下一层遍历直到这个分支结束，然后返回上一层，对上一层的右子树这个分支继续深搜，直到一整棵树完全遍历，因此符合栈后进先出的特点;
+    2. 深度优先遍历常用的数据结构是栈;
+    3. DFS 特性 : 不全部保留结点，占用空间少;有回溯操作(即有入栈、出栈操作)，运行速度慢。
+    */
+    const dfc = (node) => {
+      if (!node) return [];
+      const stack = [] // 栈 后进先出
+      const nodes = [] // 存所有的节点
+      stack.push(node);
+      while (stack.length) {
+        const item = stack.pop() // 出栈
+        nodes.push(item)
+        const children = item.children
+        const len = children.length;
+        // 从右往左存到stack，从stack里pop存到nodes才是从左往右
+        for (let i = len - 1; i >= 0; i--) {
+          stack.push(children[i])
+        }
+      }
+      return nodes;
+    }
+    console.log(dfc(document.querySelector('#parent')))
+
+    /*
+      1. BFS 的思想是从左至右，对树的每一层所有结点依次遍历，当一层的结点遍历完全后，对下一层开始遍历，而下一层结点又恰好是上一层的子结点。因此符合队列先进先出的特点；
+      2. 深度优先遍历常用的数据结构为队列；
+      3. BFS 的特性 : 保留全部结点，占用空间大;无回溯操作(即无入栈、出栈操作)，运行速度快。
+    */
+    const bfc = (node) => {
+      if (!node) return [];
+      const queue = [] // 列 先进先出
+      const nodes = [] // 存所有的节点
+      queue.push(node);
+      while (queue.length) {
+        const item = queue.shift()
+        nodes.push(item)
+        const children = item.children
+        const len = children.length;
+        for (let i = 0; i < len; i++) {
+          queue.push(children[i])
+        }
+      }
+      return nodes;
+    }
+    console.log(bfc(document.querySelector('#parent')))
+  </script>
+</body>
+
+</html>
