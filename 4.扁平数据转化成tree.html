@@ -40,23 +40,36 @@
         name: '部门6',
         pid: 5
       },
+      {
+        id: 7,
+        name: '部门7',
+        pid: 2
+      },
     ];
 
     const dataReturnTree = (data) => {
       const treeArr = [];
       const dataMap = {}
       data.forEach((item) => {
-        dataMap[item.id] = {
+        const {
+          id,
+          pid
+        } = item;
+        dataMap[id] = {
           ...item,
           children: []
+
         }
+        if (pid === 0) treeArr.push(dataMap[id])
       })
-      console.log('dataMap:::', dataMap)
       for (let key in dataMap) {
-        if (dataMap[key].pid in dataMap) {
-          dataMap[key].pid.children.push(dataMap[key])
+        const pid = dataMap[key].pid
+        if (pid in dataMap) {
+          dataMap[pid].children.push(dataMap[key])
         }
       }
+      console.log('dataMap:::', dataMap)
+      return treeArr
     }
     console.log(dataReturnTree(arr))
   </script>
