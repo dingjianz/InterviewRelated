@@ -9,24 +9,41 @@
 </head>
 
 <body>
-  <button>点击</button>
+  <button class="button1">防抖</button>
+  <br />
+  <button class="button2">节流</button>
   <script>
     /**
       防抖——触发高频事件后 n 秒后函数只会执行一次，如果n 秒内高频事件再次被触发，则重新计算时间
       节流——高频事件触发，但在 n 秒内只会执行一次，所以节流会稀释函数的执行频率。
      */
 
-    const debounce = (fn, time = 500) => {
-      let timer = null;
-      return function () {
-        clearTimeout(timer)
-        timer = setTimeout(fn, time)
+    const debounce = ((fn, ...argus) => {
+      let timer = null
+      return () => {
+        if (timer !== null) {
+          clearTimeout(timer)
+        }
+        timer = setTimeout(fn, 500)
+      }
+    })
+
+    const sayHello1 = () => console.log('防抖');
+
+    const throttle = (fn, wait) => {
+      let timer = null
+      return () => {
+        if (timer !== null) return false;
+        timer = setTimeout(() => {
+          fn()
+          clearTimeout(timer)
+        }, wait);
       }
     }
+    const sayHello2 = () => console.log('节流');
 
-    const sayHello = () => console.log('hello');
-
-    document.querySelector('button').addEventListener('click', debounce(sayHello, 'jianding9'))
+    document.getElementsByClassName('button1')[0].addEventListener('click', debounce(sayHello1, 'jianding9'))
+    document.getElementsByClassName('button2')[0].addEventListener('click', throttle(sayHello2, 1000))
   </script>
 </body>
 

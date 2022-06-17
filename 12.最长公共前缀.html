@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>12.最长公共前缀</title>
+</head>
+
+<body>
+  <script>
+    /**
+     * @param {string[]} strs
+     * @return {string}
+     */
+    console.time('testForEach');
+    const longestCommonPrefix = function (strs) {
+      const len = strs.length // 2
+      if (len === 0) return ''
+      let ans = strs[0] // 以第一个为基准
+      for (let i = 1; i < len; i++) {
+        if (ans === '') break;
+        let m = 0; // 这里m不满足m < ans.length && strs[i].length时跳出，用于ans.substr(0, m)
+        for (; m < ans.length && strs[i].length; m++) {
+          if (ans[m] !== strs[i][m]) {
+            break;
+          }
+        }
+        ans = ans.substr(0, m)
+      }
+      return ans
+    };
+    console.timeEnd('testForEach')
+
+    console.log(longestCommonPrefix(["abcc", "absx"]))
+  </script>
+</body>
+
+</html>

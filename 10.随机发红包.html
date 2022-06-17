@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>9.二分法查找</title>
+</head>
+
+<body>
+  <script>
+    /**
+     * @param {number} money
+     * @param {number} person
+     * @return {number[]}
+     */
+    const redPacket = (money, person) => {
+      const arr = []
+      if (money <= 0 || person <= 0) return arr;
+      while (person > 0) {
+        if (person === 1) {
+          arr.push(money)
+        } else {
+          let percent = Number(Math.random().toFixed(2))
+          if (percent === 1 || percent === 0) percent = 0.5
+          const val = Math.floor((percent * money) * 100) / 100
+          money = Math.floor(((money - val) * 100)) / 100
+          arr.push(val)
+        }
+        person--
+      }
+      return arr
+    }
+
+    
+    console.log(redPacket(100, 3))
+  </script>
+</body>
+
+</html>
