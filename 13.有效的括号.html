@@ -14,16 +14,35 @@
      * @param {string} s
      * @return {boolean}
      */
-    const isValid = function (s) {
-      const len = s.length;
-      if (len === 0) return false;
-      let flag = true
-    };
-    const data = {
-        '(': 1
+    const isValid = function (str) {
+      const len = str.length;
+      if (len === 0 || len % 2 === 1) return false; // 一一对应 如果长度不为偶数 直接false
+      const map = new Map([
+          [")", "("],
+          ["}", "{"],
+          ["]", "["],
+        ]
+      )
+      const stack = []
+      for (let s of str) {
+        switch (s) {
+          case '(':
+          case '[':
+          case '{':
+            stack.push(s);
+            break;
+          case ')':
+          case ']':
+          case '}':
+            if (stack.length === 0 || stack.pop() !== map.get(s)) return false; // 细品
+            break;
+          default:
+            break;
+        }
       }
-    console.log(isValid('()[]{}'))
-    console.log(data['('])
+      return stack.length === 0 // 最后stack应该是一一对应 pop完为空数组
+    };
+    console.log(isValid('([])'))
   </script>
 </body>
 
