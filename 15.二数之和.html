@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>15.二数之和</title>
+</head>
+
+<body>
+  <script>
+    /**
+     * @param {number[]} nums
+     * @param {number} target
+     * @return {number[]}
+     */
+    const twoSum = function (nums, target) {
+      const len = nums.length
+      if (nums === null || len < 2) return []
+      const obj = {}
+      for (let i = 0; i < len; i++) {
+        const diff = target - nums[i];
+        // if (nums.includes(diff)) {
+        //   const index = nums.findIndex((it, j) => {
+        //     return it === diff && i !== j
+        //   })
+        //   if (![-1, i].includes(index)) return [index, i].sort((a, b) => a - b)
+        // }
+        if (diff in obj) return [obj[diff], i];
+        obj[nums[i]] = i;
+      }
+      return []
+    };
+
+    console.log(twoSum([3, 2, 4], 6))
+  </script>
+</body>
+
+</html>

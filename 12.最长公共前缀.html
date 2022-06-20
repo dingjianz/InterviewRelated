@@ -16,24 +16,26 @@
      */
     console.time('testForEach');
     const longestCommonPrefix = function (strs) {
-      const len = strs.length // 2
+      const len = strs.length
       if (len === 0) return ''
       let ans = strs[0] // 以第一个为基准
       for (let i = 1; i < len; i++) {
-        if (ans === '') break;
-        let m = 0; // 这里m不满足m < ans.length && strs[i].length时跳出，用于ans.substr(0, m)
-        for (; m < ans.length && strs[i].length; m++) {
-          if (ans[m] !== strs[i][m]) {
+        if(ans === '') break;
+        const lenI = strs[i].length
+        const lenAns = ans.length; // ans是变化的，所以不能放在for外层
+        let j = 0;
+        for (; j < lenI && j < lenAns; j++) {
+          if (strs[i][j] !== ans[j]) {
             break;
           }
         }
-        ans = ans.substr(0, m)
+        ans = ans.substr(0, j)
       }
       return ans
     };
     console.timeEnd('testForEach')
 
-    console.log(longestCommonPrefix(["abcc", "absx"]))
+    console.log(longestCommonPrefix(["abcc", "absx", '']))
   </script>
 </body>
 

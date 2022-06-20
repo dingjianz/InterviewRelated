@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>17.主要元素</title>
+</head>
+
+<body>
+  <script>
+    /**
+     * @param {number[]} nums
+     * @return {number}
+     */
+    const majorityElement = function (nums) {
+      const len = nums.length;
+      if (!nums || len === 0) return -1
+      const obj = {}
+      for (let i = 0; i < len; i++) {
+        if (nums[i] in obj) {
+          obj[nums[i]]++
+        } else {
+          obj[nums[i]] = 1
+        }
+      }
+      const max = Math.max(...Object.values(obj))
+      let f;
+      for(let r of Object.entries(obj)) {
+        if () {}
+      }
+    };
+
+    console.log(majorityElement([1, 2, 5, 9, 5, 9, 5, 5, 5, 5]))
+  </script>
+</body>
+
+</html>
