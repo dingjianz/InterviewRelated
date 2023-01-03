@@ -20,9 +20,8 @@
       nums = nums.sort((a, b) => (a - b))
       const arr = []
       if (nums[len - 1] < 0) return arr
-      for (let i = 0; i < len - 2 ; i++) {
+      for (let i = 0; i < len - 2; i++) {
         if (nums[i] > 0) continue // 如果当前数字大于0，则三数之和一定大于0，所以结束本次循环 break是中断整个for循环
-
       }
       return nums
     };

@@ -26,13 +26,17 @@
         }
       }
       const max = Math.max(...Object.values(obj))
-      let f;
-      for(let r of Object.entries(obj)) {
-        if () {}
+      const half = Math.floor(len / 2)
+      if (max > half) {
+        for(let r of Object.entries(obj)) {
+          if (r[1] === max) return r[0]
+        }
+      } else {
+        return -1;
       }
     };
 
-    console.log(majorityElement([1, 2, 5, 9, 5, 9, 5, 5, 5, 5]))
+    console.log(majorityElement([2, 2, 2, 3, 3, 4, 4]))
   </script>
 </body>
 
