@@ -9,8 +9,9 @@
 </head>
 
 <body>
+  <a
+    href="https://www.bilibili.com/video/BV1MP4y127kd?p=9&spm_id_from=pageDriver&vd_source=fe3ac7dc54aa6650d238bee01d5cd0e0" target="_blank">课程地址</a>
   <script>
-    // 课程地址： https://www.bilibili.com/video/BV1MP4y127kd?p=9&spm_id_from=pageDriver&vd_source=fe3ac7dc54aa6650d238bee01d5cd0e0
     // 一、构造器模式
     /* 
       function Employee (name, age) {
@@ -280,50 +281,112 @@
       观察者模式包含观察者目标和观察者两类对象
       一个目标可以有任意数目的与之相依赖的观察者
       一旦观察目标的状态发生改变，所有的观察者都将得到通知
-      当一个对象的状态发生改变时，所有依赖它的对象都得到通知并被自动更新，解决了主体对象与观察者之间功能的耦合，
-      即一个对象状态改变给其他对象通知的问题
+      当一个对象的状态发生改变时，所有依赖它的对象都得到通知并被自动更新，
+      解决了主体对象与观察者之间功能的耦合，即一个对象状态改变给其他对象通知的问题
+    */
+    /* 
+      优势:
+          目标者与观察者，功能耦合度降低，专注自身功能逻辑;
+          观察者被动接收更新，时间上解耦，实时接收目标者更新状态。
+      缺点:
+          观察者模式虽然实现了对象间依赖关系的低耦合，但却不能对事件通知进行细分管控，
+          如“筛选通知”，"指定主题事件通知”。
     */
 
-    class Subject {
+    /* 
+      class Subject {
+        constructor() {
+          this.observers = []
+        }
+
+        add(observer) {
+          this.observers.push(observer)
+        }
+
+        remove(observer) {
+          this.observers = this.observers.filter(item => item !== observer)
+        }
+
+        notify() {
+          this.observers.forEach(item => {
+            item.update()
+          })
+        }
+      }
+
+      class Observer {
+        constructor(name) {
+          this.name = name
+        }
+
+        update() {
+          console.log('update', this.name)
+        }
+      }
+
+      const subject = new Subject()
+      const observer1 = new Observer('jianding9')
+      const observer2 = new Observer('zhding')
+      subject.add(observer1)
+      subject.add(observer2)
+      setTimeout(() => {
+        subject.remove(observer1)
+      }, 1e3);
+      setTimeout(() => {
+        subject.notify()
+      }, 2e3);
+    */
+
+    // 十三、发布订阅模式
+    /* 
+      1. 观察者和目标要相互知道；
+      2. 发布者和订阅者不用互相知道，通过第三方实现调度，属于经过解耦合的观察者模式；
+    */
+    class SubPub {
       constructor() {
-        this.observers = []
+        this.message = {}
       }
-
-      add(observer) {
-        this.observers.push(observer)
+      subscribe(type, fn) {
+        if (!this.message[type]) {
+          this.message[type] = [fn]
+        } else {
+          this.message[type].push(fn)
+        }
       }
-
-      remove(observer) {
-        this.observers = this.observers.filter(item => item !== observer)
+      unsubcribe(type, cb) {
+        if (this.message[type]) {
+          this.message[type] = this.message[type].filter(it => it !== cb)
+        }
       }
-
-      notify() {
-        this.observers.forEach(item => {
-          item.update()
-        })
+      unsubcribeAll(type) {
+        if (this.message[type]) {
+          delete this.message[type]
+        }
+      }
+      publish(type, data) {
+        if (this.message[type]) {
+          this.message[type].forEach(cb => {
+            cb(data)
+          });
+        }
       }
     }
 
-    class Observer {
-      constructor(name) {
-        this.name = name
-      }
-      update() {
-        console.log('update', this.name)
-      }
+    function testA(data) {
+      console.log('testA', data)
     }
 
-    const subject = new Subject()
-    const observer1 = new Observer('jianding9')
-    const observer2 = new Observer('zhding')
-    subject.add(observer1)
-    subject.add(observer2)
-    setTimeout(() => {
-      subject.remove(observer1)
-    }, 1e3);
-    setTimeout(() => {
-      subject.notify()
-    }, 2e3);
+    function testB(data) {
+      console.log('testB', data)
+    }
+
+    const subpub = new SubPub()
+    subpub.subscribe('A', testA)
+    subpub.subscribe('B', testB)
+    // subpub.unsubcribe('A', testA) // 
+    // subpub.unsubcribeAll('A')
+    subpub.publish('A', 123)
+    subpub.publish('B', 456)
   </script>
 </body>
 

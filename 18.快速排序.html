@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>18.快速排序</title>
+</head>
+
+<body>
+  <script>
+    /**
+      快速排序：特点就是块，至少相比较于冒泡排序、插入排序、选择排序相比。
+      排序过程：
+        先取出数组中的一个值，作为基准值。
+        根据这个基准值，再分为小于基准值和大于基准值的数组
+        进入递归
+        当递归的数组小于两个时，跳出递归，将这个数组返回基线条件
+        最后将每个数组拼接在一起
+    */
+    const arr = [11, 23, 1, 3, 3, 53, 98, 56]
+
+    /**
+     * @param {number[]} arr
+     * @return{void}
+    */
+    function quickSort (arr) {
+      if (arr.length < 2) {
+        return arr
+      }
+      const goal = arr[0]
+      const restArr = arr.slice(1);
+      const minArr = restArr.filter(item => item <= goal);
+      const maxArr = restArr.filter(item => item > goal);
+      return [...quickSort(minArr), goal, ...quickSort(maxArr)]
+    }
+    console.log(quickSort(arr))
+  </script>
+</body>
+
+</html>
