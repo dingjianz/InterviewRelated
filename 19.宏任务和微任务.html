@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>19.宏任务和微任务</title>
+</head>
+
+<body>
+  <a href="https://juejin.cn/post/6969028296893792286">掘金：EventLoop</a>
+  <br>
+  <a href="https://www.cnblogs.com/bkzj/p/16795529.html">学习链接</a>
+  <br>
+  <a href="https://zhuanlan.zhihu.com/p/55511602">主要对栈、队列的理解</a>
+  <p>Event Loop即事件循环，是指浏览器或Node的一种解决javaScript单线程运行时不会阻塞的一种机制，也就是我们经常使用异步的原理。</p>
+  <script>
+    /*
+      同步任务
+      异步任务：宏任务和微任务
+      调用栈执行完同步任务以后，再执行异步任务。
+      首先会执行异步任务中的微任务，
+      并且清空微任务以后才会看一下需不需要渲染，
+      如需渲染，渲染后事件循环再执行下一轮微任务，
+      把微任务队列清空以后，再执行宏任务
+    */
+
+    // console.log('一碗白米饭')
+
+    // setTimeout(() => {
+    //   console.log('红烧鸡屁股')
+    // }, 0);
+
+    // Promise.resolve().then(() => {
+    //   console.log('白灼黑木耳')
+    // })
+
+    // console.log('一盆白开水')
+
+    // Promise.resolve().then(() => {
+    //   console.log('榴莲拼盘')
+    // })
+
+    // setTimeout(() => {
+    //   console.log('芥末炒鱼头')
+    //   console.log('麻辣乳猪头')
+    // }, 0);
+
+    // Promise.resolve().then(() => {
+    //   console.log('麻婆没豆腐')
+    // })
+
+    // setTimeout(function () {
+    //   console.log('setTimeout')
+    // }, 0);
+
+    // // 同步
+    // console.log('script start')
+
+    // async function async1() {
+    //   // 同步
+    //   console.log('async1 start');
+    //   await async2()
+    //   // 异步
+    //   console.log('async1 end')
+    // }
+
+    // async function async2() {
+    //   // 同步
+    //   console.log('async2 end')
+    // }
+
+    // // 同步
+    // new Promise(function (resolve) {
+    //   // 同步
+    //   console.log('promise')
+    //   for (var i = 0; i < 10000; i++) {
+    //     if (i === 10) {
+    //       console.log("3")
+    //     }
+    //     i == 9999 && resolve('4')
+    //   }
+    //   resolve();
+    // }).then(function (val) {
+    //   console.log(val)·
+    //   // 异步
+    //   console.log('promise1')
+    // }).then(function (res) {
+    //   console.log(res)
+    //   console.log('promise2')
+    // })
+    // // 微任务
+    // async1();
+    // // 同步
+    // console.log('script end')
+
+    // console.log(100)
+    // setTimeout(() => {
+    //   console.log(200)
+    // })
+    // Promise.resolve().then(() => {
+    //   console.log(300)
+    // })
+    // console.log(400)
+
+
+    async function async1() {
+      console.log("a");
+      const res = await async2();
+      console.log("b");
+    }
+
+    async function async2() {
+      console.log("c");
+      return 2;
+    }
+
+    console.log("d");
+
+    setTimeout(() => {
+      console.log("e");
+    }, 0);
+
+    async1().then(res => {
+      console.log("f")
+    })
+
+    new Promise((resolve) => {
+      console.log("g");
+      resolve();
+    }).then(() => {
+      console.log("h");
+    });
+
+    console.log("i");
+  </script>
+</body>
+
+</html>

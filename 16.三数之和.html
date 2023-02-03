@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>16.三数之和</title>
+</head>
+
+<body>
+  <script>
+    /**
+     * @param {number[]} nums
+     * @return {number[][]}
+     */
+    const threeSum = function (nums) {
+      const len = nums.length;
+      if (len === null || len < 3) return []
+      nums = nums.sort((a, b) => (a - b))
+      const arr = []
+      if (nums[len - 1] < 0) return arr
+      for (let i = 0; i < len - 2; i++) {
+        if (nums[i] > 0) continue // 如果当前数字大于0，则三数之和一定大于0，所以结束本次循环 break是中断整个for循环
+      }
+      return nums
+    };
+
+    console.log(threeSum([-1, 0, 1, 2, -1, -4]))
+  </script>
+</body>
+
+</html>

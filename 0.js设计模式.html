@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS设计模式</title>
+</head>
+
+<body>
+  <a href="https://www.bilibili.com/video/BV1MP4y127kd?p=9&spm_id_from=pageDriver&vd_source=fe3ac7dc54aa6650d238bee01d5cd0e0"
+    target="_blank">课程地址</a>
+  <script>
+    // 一、构造器模式
+    /* 
+      function Employee (name, age) {
+        this.name = name
+        this.age = age
+        this.say = functi on(sex) {
+          console.log(this.name + '-' + this.age);
+          console.log(sex);
+        }
+      }
+
+      const e1 = new Employee('jianding', 29)
+      e1.say()
+      const e2 = {
+        name: 'zs',
+        age: 50
+      }
+      e1.say.apply(e2, ['male'])
+      e1.say.call(e2, 'female')
+      e1.say.bind(e2, 'secret')()
+    */
+
+    // 二、原型链模式
+    /* 
+      function Employee(name, age) {
+      this.name = name
+      this.age = age
+    }
+    Employee.prototype.say = function (sex) {
+      console.log(this.name + '-' + this.age);
+      console.log(sex);
+    }
+    */
+
+    // 三、es6 class 构造器模式
+    /* 
+    class Employee {
+      constructor(name, age) {
+        this.name = name
+        this.age = age
+      }
+        // say定义在prototype上 实例可以直接调用
+        say() {
+          console.log(this.name + '-' + this.age);
+        }
+        // hello定义在 Employee上 静态方法
+        static hello () {
+          console.log(11);
+        }
+      }
+    */
+
+    /* 
+      四、简单工厂模式: 由一个工厂对象决定创建某一种产品对象类的实例，主要用来创建同一类对象。
+    */
+    /* 
+      function UserFactory(role) {
+        function User(role, pages) {
+          this.role = role;
+          this.pages = pages;
+        }
+        switch (role) {
+          case 'superadmin':
+            return new User('superadmin', ['home', 'user-manage', 'right-manage', 'news-manage'])
+          case 'admin':
+            return new User('admin', ['home', 'user-manage', 'news-manage'])
+          case 'editor':
+            return new User('editor', ['home', 'news-manage'])
+          default:
+            throw new Error('参数错误')
+        }
+      }
+    */
+
+    //  Es6工厂模式写法
+    /* 
+      class User {
+        constructor(role, pages) {
+          this.role = role
+          this.pages = pages
+        }
+        static UserFactory(role) {
+          switch (role) {
+            case 'superadmin':
+              return new User('superadmin', ['home', 'user-manage', 'right-manage', 'news-manage'])
+            case 'admin':
+              return new User('admin', ['home', 'user-manage', 'news-manage'])
+            case 'editor':
+              return new User('editor', ['home', 'news-manage'])
+            default:
+              throw new Error('参数错误')
+          }
+        }
+      }
+      const user = User.UserFactory('admin')
+    */
+    /* 
+      简单工厂的优点在于，你只需要一个正确的参数，就可以获取到你所需要的对象，而无需知道其创建的具体细节。
+      但是在函数内包含了所有对象的创建逻辑和判断逻辑的代码，每增加新的构造函数还需要修改判断逻辑代码。
+      当我们的对象不是上面的3个而是10个或更多时，这个函数会成为一个庞大的超级函数，便得难以维护。
+      所以，简单工厂只能作用于创建的对象数量较少，对象的创建逻辑不复杂时使用。
+    */
+
+    // 五、抽象工厂模式
+    // 抽象工厂模式并不直接生成实例，而是用于对产品类簇的创建.
+    /*
+    class User {
+      constructor(name, role, pages) {
+        this.name = name
+        this.role = role
+        this.pages = pages
+      }
+
+      welcome() {
+        console.log('欢迎回来', this.name)
+      }
+
+      datashow() {
+        throw new Error('抽象方法需要被实现')
+      }
+    }
+
+    class SuperAdmin extends User {
+      constructor(name) {
+        super(name, 'superadmin', ['home', 'user-manage', 'right-manage', 'news-manage'])
+      }
+      datashow() {
+        console.log('im a superadmin')
+      }
+      addRight() {}
+      addUser() {}
+      addNews() {}
+    }
+
+    class Admin extends User {
+      constructor(name) {
+        super(name, 'admin', ['home', 'user-manage', 'news-manage'])
+      }
+      datashow() {
+        console.log('im a admin')
+      }
+      addUser() {}
+      addNews() {}
+    }
+
+    class Editor extends User {
+      constructor(name) {
+        super(name, 'editor', ['home', 'news-manage'])
+      }
+      datashow() {
+        console.log('im a editor')
+      }
+      addNews() {}
+    }
+
+    function getAbstractUserFactory(role) {
+      switch (role) {
+        case 'superadmin':
+          return SuperAdmin;
+        case 'admin':
+          return SuperAdmin;
+        case 'editor':
+          return Editor;
+        default:
+          throw new Error('参数错误')
+      }
+    }
+    const UserClass = getAbstractUserFactory('editor');
+    const user = new UserClass('jianding9')
+    user.datashow()
+    */
+
+    // 六、建造者模式
+    /* 
+      建造者模式(builder pattern)属于创建型模式的一种，提供一种创建复杂对象的方式。
+      它将一个复杂的对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。
+      建造者模式是一步一步的创建一个复杂的对象，它允许用户只通过指定复杂的对象的类型和内容就可以构建它们，
+      用户不需要指定内部的具体构造细节。
+    */
+    /* 
+      class Navbar {
+        init() {
+          console.log('Navbar-init')
+        }
+        getData() {
+          console.log('Navbar-getData')
+        }
+        render() {
+          console.log('Navbar-render')
+        }
+      }
+
+      class List {
+        init() {
+          console.log('List-init')
+        }
+        getData() {
+          console.log('List-getData')
+        }
+        render() {
+          console.log('List-render')
+        }
+      }
+
+      class Creator {
+        startBuild(builder) {
+          builder.init()
+          builder.getData()
+          builder.render()
+        }
+      }
+
+      const operator = new Creator();
+      operator.startBuild(new Navbar())
+      operator.startBuild(new List())
+   */
+    /* 
+      建造者模式将一个复杂对象的构建层与其表示层相互分离，同样的构建过程可采用不同的表示。 
+      工厂模式主要是为了创建对象实例或者类簇(抽象工厂)，关心的是最终产出(创建)的是什么，而不关心创建的过程。
+      而建造者模式关心的是创建这个对象的整个过程，甚至于创建对象的每一个细节。
+    */
+
+    // 单例模式
+    /* 
+      1、保证一个类仅有一个实例，并提供一个访问它的全局访问点；
+      2、主要解决一个全局使用的类频繁地创建和销毁，占用内存；
+    */
+    /* 
+      const Singleton = (() => {
+        let instance;
+
+        function User(name, age) {
+          this.name = name;
+          this.age = age;
+        }
+        return (name, age) => {
+          if (!instance) {
+            // 创建实例
+            instance = new User(name, age)
+          }
+          return instance
+        }
+      })() 
+      console.log(Singleton('j', 18))
+      console.log('11', Singleton('j', 18) === Singleton('l', 20))
+
+      class Singleton {
+        constructor(name, age) {
+          if (!Singleton.instance) {
+            this.name = name
+            this.age = age
+            Singleton.instance = this
+          }
+          return Singleton.instance
+        }
+      }
+    */
+
+    // 八、装饰器模式
+    /* 
+      装饰器模式能够很好的对已有功能进行拓展，这样不会更改原有的代码，对其他的业务产生影响，
+      这方便我们在较少的改动下对软件功能进行拓展。
+    */
+
+    // 十二、观察者模式
+    /* 
+      观察者模式包含观察者目标和观察者两类对象
+      一个目标可以有任意数目的与之相依赖的观察者
+      一旦观察目标的状态发生改变，所有的观察者都将得到通知
+      当一个对象的状态发生改变时，所有依赖它的对象都得到通知并被自动更新，
+      解决了主体对象与观察者之间功能的耦合，即一个对象状态改变给其他对象通知的问题
+    */
+    /* 
+      优势:
+          目标者与观察者，功能耦合度降低，专注自身功能逻辑;
+          观察者被动接收更新，时间上解耦，实时接收目标者更新状态。
+      缺点:
+          观察者模式虽然实现了对象间依赖关系的低耦合，但却不能对事件通知进行细分管控，
+          如“筛选通知”，"指定主题事件通知”。
+    */
+
+    /* 
+      class Subject {
+        constructor() {
+          this.observers = []
+        }
+
+        add(observer) {
+          this.observers.push(observer)
+        }
+
+        remove(observer) {
+          this.observers = this.observers.filter(item => item !== observer)
+        }
+
+        notify() {
+          this.observers.forEach(item => {
+            item.update()
+          })
+        }
+      }
+
+      class Observer {
+        constructor(name) {
+          this.name = name
+        }
+
+        update() {
+          console.log('update', this.name)
+        }
+      }
+
+      const subject = new Subject()
+      const observer1 = new Observer('jianding9')
+      const observer2 = new Observer('zhding')
+      subject.add(observer1)
+      subject.add(observer2)
+      setTimeout(() => {
+        subject.remove(observer1)
+      }, 1e3);
+      setTimeout(() => {
+        subject.notify()
+      }, 2e3);
+    */
+
+    // 十三、发布订阅模式
+    /* 
+      1. 观察者和目标要相互知道；
+      2. 发布者和订阅者不用互相知道，通过第三方实现调度，属于经过解耦合的观察者模式；
+    */
+    class SubPub {
+      constructor() {
+        this.message = {}
+      }
+      subscribe(type, fn) {
+        if (!this.message[type]) {
+          this.message[type] = [fn]
+        } else {
+          this.message[type].push(fn)
+        }
+      }
+      unsubcribe(type, cb) {
+        if (this.message[type]) {
+          this.message[type] = this.message[type].filter(it => it !== cb)
+        }
+      }
+      unsubcribeAll(type) {
+        if (this.message[type]) {
+          delete this.message[type]
+        }
+      }
+      publish(type, data) {
+        if (this.message[type]) {
+          this.message[type].forEach(cb => {
+            cb(data)
+          });
+        }
+      }
+    }
+
+    function testA(data) {
+      console.log('testA', data)
+    }
+
+    function testB(data) {
+      console.log('testB', data)
+    }
+
+    const subpub = new SubPub()
+    subpub.subscribe('A', testA)
+    subpub.subscribe('B', testB)
+    // subpub.unsubcribe('A', testA) 
+    // subpub.unsubcribeAll('A')
+    subpub.publish('A', 123)
+    subpub.publish('B', 456)
+  </script>
+</body>
+
+</html>
