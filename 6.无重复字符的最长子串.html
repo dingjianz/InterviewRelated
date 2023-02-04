@@ -119,8 +119,10 @@
           }
           set.add(s[i])
         }
+        res += item
+        max = Math.max(res.length, max)
       }
-      return maxLength;
+      return max
     };
 
 
