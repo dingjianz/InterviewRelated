@@ -11,30 +11,28 @@
 <body>
   <script>
     /**
-     * @param {number} money
-     * @param {number} person
-     * @return {number[]}
+     * description arr必须是升序的数组
+     * @param {number[]} arr 
+     * @param {number} target
+     * @return {number}
      */
-    const redPacket = (money, person) => {
-      const arr = []
-      if (money <= 0 || person <= 0) return arr;
-      while (person > 0) {
-        if (person === 1) {
-          arr.push(money)
-        } else {
-          let percent = Number(Math.random().toFixed(2))
-          if (percent === 1 || percent === 0) percent = 0.5
-          const val = Math.floor((percent * money) * 100) / 100
-          money = Math.floor(((money - val) * 100)) / 100
-          arr.push(val)
+    function dichotomy(arr, target) {
+      let start = 0,
+        end = arr.length - 1,
+        mid = -1;
+        while(start <= end) {
+          mid = Math.floor((start + end) / 2)
+          if (arr[mid] === target) {
+            return mid
+          } else if (arr[mid] < target) {
+            start = mid + 1
+          } else if (arr[mid] > target) {
+            end = mid - 1
+          }
         }
-        person--
-      }
-      return arr
+      return mid
     }
-
-    
-    console.log(redPacket(100, 3))
+    console.log(dichotomy([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 1))
   </script>
 </body>
 

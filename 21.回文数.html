@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>21.回文数</title>
+</head>
+
+<body>
+  <script>
+    /* 
+    给你一个整数 x ，如果 x 是一个回文整数，返回true；否则，返回 false 。
+回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。
+例如，121 是回文，而 123 不是。
+  */
+
+    /**
+     * @param {number} x
+     * @return {boolean}
+     */
+    var isPalindrome = function (x) {
+      if (Number.isInteger(x) && x >= 0) {
+        const str1 = `${x}`;
+        const str2 = str1.split('').reverse().join('')
+        return str1 === str2
+      }
+      return false;
+    };
+    console.log(isPalindrome(121))
+  </script>
+</body>
+
+</html>

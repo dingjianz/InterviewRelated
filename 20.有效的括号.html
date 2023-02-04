@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>20.有效的括号</title>
+</head>
+
+<body>
+  <script>
+    /**
+     * @param {string} s
+     * @return {boolean}
+     */
+    // const isValid = function (str) {
+    //   const len = str.length
+    //   if (len === 0 || len % 2 === 1) return false
+    //   const arr = [];
+    //   const mapObj = {
+    //     '{': '}',
+    //     '[': ']',
+    //     '(': ')',
+    //   }
+    //   for (let s of str) {
+    //     switch (s) {
+    //       case '(':
+    //       case '[':
+    //       case '{':
+    //         arr.push(s)
+    //         break;
+    //       case ')':
+    //       case '}':
+    //       case ']':
+    //         if (arr.length === 0 || mapObj[arr.pop()] !== s) return false
+    //         break
+    //       default:
+    //         break;
+    //     }
+    //   }
+    //   return arr.length === 0
+    // };
+
+    const isValid = function (str) {
+      const len = str.length
+      if (len === 0 || len % 2 === 1) return false
+      while (true) {
+        const _len = str.length;
+        str = str.replace('[]', '').replace('{}', '').replace('()', '')
+        if (str.length === _len) {
+          return str.length === 0
+        }
+      }
+    };
+    console.log(isValid('[({)]}'))
+  </script>
+</body>
+
+</html>
